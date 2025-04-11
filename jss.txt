@@ -1,0 +1,45 @@
+const colorCodeSpan = document.getElementById("color-code");
+const colorButtonsContainer = document.getElementById("color-buttons");
+const resultDisplay = document.getElementById("result");
+
+let correctColor;
+
+function generateRandomColor() {
+    const randomColor = `rgb(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)})`;
+    return randomColor;
+}
+
+function generateGame() {
+    colorButtonsContainer.innerHTML = "";
+    resultDisplay.textContent = "";
+
+    correctColor = generateRandomColor();
+    colorCodeSpan.textContent = correctColor;
+
+    const colors = [correctColor];
+    for (let i = 0; i < 2; i++) {
+        colors.push(generateRandomColor());
+    }
+
+    // Shuffle colors
+    colors.sort(() => Math.random() - 0.5);
+
+    colors.forEach(color => {
+        const button = document.createElement("button");
+        button.style.backgroundColor = color;
+        button.addEventListener("click", () => checkAnswer(color));
+        colorButtonsContainer.appendChild(button);
+    });
+}
+
+function checkAnswer(selectedColor) {
+    if (selectedColor === correctColor) {
+        resultDisplay.textContent = "Correct! 🎉";
+        resultDisplay.style.color = "green";
+    } else {
+        resultDisplay.textContent = "Wrong! Try again. 😔";
+        resultDisplay.style.color = "red";
+    }
+}
+
+generateGame();
